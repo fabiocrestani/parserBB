@@ -32,4 +32,8 @@ public class BillList {
 		return sum;
 	}
 
+	public List<BillItem> getList() {
+		return items;
+	}
+
 }

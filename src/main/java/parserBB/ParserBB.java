@@ -41,8 +41,6 @@ public class ParserBB extends Application {
     }
 	
 	public void mostraJanelaPrincipal() {
-
-		
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(ParserBB.class.getResource("../ui/Main.fxml"));
