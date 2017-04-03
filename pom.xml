@@ -4,6 +4,12 @@
   <artifactId>parserBB</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Parser Banco do Brasil</name>
-  <description>Faz o parser de arquivo .csv de extrato do Banco do Brasil.
-Poderá ser usado no futuro para aplicativo de controle de gastos.</description>
+  <description>Faz o parser de arquivo .csv de extrato do Banco do Brasil. Poderá ser usado no futuro para aplicativo de controle de gastos.</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.opencsv</groupId>
+  		<artifactId>opencsv</artifactId>
+  		<version>3.8</version>
+  	</dependency>
+  </dependencies>
 </project>
