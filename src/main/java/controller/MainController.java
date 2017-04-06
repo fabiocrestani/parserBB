@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import keyword.KeywordDictionary;
 import parserBB.BillItem;
-import parserBB.BillItemProperty;
+import parserBB.BillItem.BillItemProperty;
 import parserBB.BillList;
 import parserBB.Csv;
 import parserBB.ParserBB;
@@ -37,7 +37,6 @@ public class MainController {
 		//dictionary = KeywordDictionary.loadTestDictionary();
 		dictionary = KeywordDictionary.loadDictionaryFromFile("user.dic");
 		dictionary.saveIntoFile("user.dic");
-		// list.print();
 		System.out.println("soma = " + list.getSumString());
 		totalTextField.setText("R$ " + list.getSumString());
 		updateList(list);
@@ -59,7 +58,8 @@ public class MainController {
 		for (BillItem item : list.getList()) {
 			String categoria = dictionary.search(item.getDescricao()).toUpperCase();
 			propertyList
-					.add(new BillItemProperty(item.getDataString(), categoria, item.getDescricao(), item.getValor()));
+					//.add(item.new BillItemProperty(item.getDataString(), categoria, item.getDescricao(), item.getValor()));
+					  .add(item.createBillItemProperty(categoria));
 		}
 
 		tabelaTableView.setItems(propertyList);

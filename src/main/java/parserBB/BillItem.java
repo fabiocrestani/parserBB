@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class BillItem {
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 
+public class BillItem {
 	private Calendar data;
 	private String agencia;
 	private String descricao;
@@ -13,10 +15,39 @@ public class BillItem {
 	private Calendar dataDoBalancete;
 	private String documento;
 	private double valor;
+	
+	public class BillItemProperty {
+		private SimpleStringProperty data;
+		private SimpleStringProperty categoria;
+		private SimpleStringProperty descricao;
+		private SimpleDoubleProperty valor;
+
+		public BillItemProperty(String data, String categoria, String descricao, Double valor) {
+			this.data = new SimpleStringProperty(data);
+			this.categoria = new SimpleStringProperty(categoria);
+			this.descricao = new SimpleStringProperty(descricao);
+			this.valor = new SimpleDoubleProperty(valor);
+		}
+
+		public String getData() {
+			return data.get();
+		}
+
+		public String getCategoria() {
+			return categoria.get();
+		}
+
+		public String getDescricao() {
+			return descricao.get();
+		}
+
+		public Double getValor() {
+			return valor.get();
+		}
+	}
 
 	public BillItem(String data, String agencia, String descricao, String dataDoBalancete, String documento,
 			String valor) {
-
 		{
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -52,7 +83,7 @@ public class BillItem {
 			System.out.println("Valor inválido");
 		}
 	}
-
+	
 	public Calendar getData() {
 		return data;
 	}
@@ -102,7 +133,12 @@ public class BillItem {
 	private String parseDescricao(String string) {
 		String newString = string.replaceAll("\\P{L}", " ").toUpperCase().replaceAll("\\s*\\bCOMPRA COM CARTÃO\\b\\s*",
 				"");
-		// newString = newString.replaceAll("Compra com Cartão", "");
 		return newString.trim().replaceAll(" +", " ");
 	}
+
+
+	public BillItemProperty createBillItemProperty(String categoria) {
+		return new BillItemProperty(getDataString(), categoria, getDescricao(), getValor());
+	}
+
 }
