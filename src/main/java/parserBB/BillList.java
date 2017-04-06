@@ -36,4 +36,8 @@ public class BillList {
 		return items;
 	}
 
+	public String getSumString() {
+		return String.format("%1$,.2f", sum);
+	}
+
 }

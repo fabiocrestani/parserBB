@@ -9,6 +9,7 @@ public class BillItem {
 	private Calendar data;
 	private String agencia;
 	private String descricao;
+	private String descricaoOriginal;
 	private Calendar dataDoBalancete;
 	private String documento;
 	private double valor;
@@ -41,7 +42,8 @@ public class BillItem {
 		}
 
 		this.agencia = agencia;
-		this.descricao = descricao;
+		this.descricao = parseDescricao(descricao);
+		this.descricaoOriginal = descricao;
 		this.documento = documento;
 		try {
 			this.valor = Double.parseDouble(valor);
@@ -61,6 +63,10 @@ public class BillItem {
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public String getDescricaoOriginal() {
+		return descricaoOriginal;
 	}
 
 	public Calendar getDataDoBalancete() {
@@ -91,5 +97,12 @@ public class BillItem {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	private String parseDescricao(String string) {
+		String newString = string.replaceAll("\\P{L}", " ").toUpperCase().replaceAll("\\s*\\bCOMPRA COM CARTÃO\\b\\s*",
+				"");
+		// newString = newString.replaceAll("Compra com Cartão", "");
+		return newString.trim().replaceAll(" +", " ");
 	}
 }

@@ -6,8 +6,8 @@ import controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ParserBB extends Application {
@@ -44,7 +44,7 @@ public class ParserBB extends Application {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(ParserBB.class.getResource("../ui/Main.fxml"));
-            TableView janelaPrincipal = (TableView) loader.load();
+            VBox janelaPrincipal = (VBox) loader.load();
             rootLayout.setCenter(janelaPrincipal);
             
             // Dá ao controlador acesso à app main.
