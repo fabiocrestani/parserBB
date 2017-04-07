@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.text.WordUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +40,11 @@ public class KeywordDictionary {
 				foundKeyword = keyword;
 			}
 		}
-		return foundKeyword.getKey();
+		return firstLetterUppercase(foundKeyword.getKey());
+	}
+	
+	public static String firstLetterUppercase(String string) {
+		return WordUtils.capitalize(string.toLowerCase());
 	}
 	
 	// Carrega dicionário de arquivo

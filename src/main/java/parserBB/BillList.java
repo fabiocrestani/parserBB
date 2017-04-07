@@ -40,4 +40,16 @@ public class BillList {
 		return String.format("%1$,.2f", sum);
 	}
 
+	public String getCsv() {
+		String csv = "";
+		int i = 0;
+		for (i = 0; i < items.size() - 1; i++) {
+			csv = csv + items.get(i).getCategoria() + "," + items.get(i).getDescricao() + ","
+					+ items.get(i).getDataString() + "," + items.get(i).getValor() + "\r\n";
+		}
+		csv = csv + items.get(i).getCategoria() + "," + items.get(i).getDescricao() + ","
+				+ items.get(i).getDataString() + "," + items.get(i).getValor();
+		return csv;
+	}
+
 }

@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -15,7 +17,8 @@ public class BillItem {
 	private Calendar dataDoBalancete;
 	private String documento;
 	private double valor;
-	
+	private String categoria;
+
 	public class BillItemProperty {
 		private SimpleStringProperty data;
 		private SimpleStringProperty categoria;
@@ -43,6 +46,10 @@ public class BillItem {
 
 		public Double getValor() {
 			return valor.get();
+		}
+
+		public void setCategoria(String newValue) {
+			this.categoria.set(newValue);
 		}
 	}
 
@@ -83,7 +90,7 @@ public class BillItem {
 			System.out.println("Valor inválido");
 		}
 	}
-	
+
 	public Calendar getData() {
 		return data;
 	}
@@ -133,12 +140,20 @@ public class BillItem {
 	private String parseDescricao(String string) {
 		String newString = string.replaceAll("\\P{L}", " ").toUpperCase().replaceAll("\\s*\\bCOMPRA COM CARTÃO\\b\\s*",
 				"");
-		return newString.trim().replaceAll(" +", " ");
+		newString = newString.trim().replaceAll(" +", " ");
+		return WordUtils.capitalize(newString.toLowerCase());
 	}
-
 
 	public BillItemProperty createBillItemProperty(String categoria) {
 		return new BillItemProperty(getDataString(), categoria, getDescricao(), getValor());
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 
 }

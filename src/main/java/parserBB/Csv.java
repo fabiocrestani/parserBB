@@ -1,8 +1,11 @@
 package parserBB;
 
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import com.opencsv.CSVReader;
 
 public class Csv {
@@ -32,5 +35,22 @@ public class Csv {
 			e.printStackTrace();
 		}
 		return billList;
+	}
+
+	public static void store(BillList list, String csvFile) {
+		String csvContent = list.getCsv();
+
+		try {
+			OutputStream os = new FileOutputStream(csvFile);
+			os.write(0xEF);
+			os.write(0xBB);
+			os.write(0xBF);
+			PrintWriter w = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
+			w.print(csvContent);
+			w.flush();
+			w.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

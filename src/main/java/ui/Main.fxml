@@ -20,7 +20,8 @@
          <menus>
             <Menu mnemonicParsing="false" text="Arquivo">
                <items>
-                  <MenuItem disable="true" mnemonicParsing="false" text="Abrir arquivo csv" />
+                  <MenuItem disable="true" mnemonicParsing="false" onAction="#abrirArquivoViaMenu" text="Abrir arquivo csv" />
+                  <MenuItem mnemonicParsing="false" onAction="#salvarArquivoViaMenu" text="Salvar arquivo csv parseado" />
                </items>
             </Menu>
          </menus>
