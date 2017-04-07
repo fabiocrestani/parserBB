@@ -47,8 +47,8 @@ public class BillList {
 			csv = csv + items.get(i).getCategoria() + "," + items.get(i).getDescricao() + ","
 					+ items.get(i).getDataString() + "," + items.get(i).getValor() + "\r\n";
 		}
-		csv = csv + items.get(i).getCategoria() + "," + items.get(i).getDescricao() + ","
-				+ items.get(i).getDataString() + "," + items.get(i).getValor();
+		csv = csv + items.get(i).getCategoria() + "," + items.get(i).getDescricao() + "," + items.get(i).getDataString()
+				+ "," + items.get(i).getValor();
 		return csv;
 	}
 

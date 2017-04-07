@@ -20,7 +20,7 @@
          <menus>
             <Menu mnemonicParsing="false" text="Arquivo">
                <items>
-                  <MenuItem disable="true" mnemonicParsing="false" onAction="#abrirArquivoViaMenu" text="Abrir arquivo csv" />
+                  <MenuItem disable="false" mnemonicParsing="false" onAction="#abrirArquivoViaMenu" text="Abrir arquivo csv" />
                   <MenuItem mnemonicParsing="false" onAction="#salvarArquivoViaMenu" text="Salvar arquivo csv parseado" />
                </items>
             </Menu>
@@ -39,8 +39,7 @@
                   <RowConstraints vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <Label text="Total" GridPane.rowIndex="1" />
-                  <TextField fx:id="totalTextField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  
                </children>
                <padding>
                   <Insets bottom="18.0" left="18.0" right="18.0" top="18.0" />

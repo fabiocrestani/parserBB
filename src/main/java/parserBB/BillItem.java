@@ -24,12 +24,14 @@ public class BillItem {
 		private SimpleStringProperty categoria;
 		private SimpleStringProperty descricao;
 		private SimpleDoubleProperty valor;
+		private BillItem that;
 
-		public BillItemProperty(String data, String categoria, String descricao, Double valor) {
+		public BillItemProperty(String data, String categoria, String descricao, Double valor, BillItem that) {
 			this.data = new SimpleStringProperty(data);
 			this.categoria = new SimpleStringProperty(categoria);
 			this.descricao = new SimpleStringProperty(descricao);
 			this.valor = new SimpleDoubleProperty(valor);
+			this.that = that;
 		}
 
 		public String getData() {
@@ -50,6 +52,7 @@ public class BillItem {
 
 		public void setCategoria(String newValue) {
 			this.categoria.set(newValue);
+			that.categoria = newValue;
 		}
 	}
 
@@ -145,7 +148,7 @@ public class BillItem {
 	}
 
 	public BillItemProperty createBillItemProperty(String categoria) {
-		return new BillItemProperty(getDataString(), categoria, getDescricao(), getValor());
+		return new BillItemProperty(getDataString(), categoria, getDescricao(), getValor(), this);
 	}
 
 	public String getCategoria() {
@@ -155,5 +158,4 @@ public class BillItem {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-
 }
