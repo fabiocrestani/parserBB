@@ -12,14 +12,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import parserBB.BillItem.BillItemProperty;
 
 /**
  *
  * @author Graham Smith
  *         {@link http://www.naturalborncoder.com/java/javafx/2012/04/26/complete-javafx-2-editable-table-example/}
+ * @param <T>
  */
-public class EditingCell extends TableCell<BillItemProperty, String> {
+public class EditingCell<T> extends TableCell<T, String> {
 	private TextField textField;
 
 	public EditingCell() {
@@ -81,7 +81,7 @@ public class EditingCell extends TableCell<BillItemProperty, String> {
 					cancelEdit();
 				} else if (t.getCode() == KeyCode.TAB) {
 					commitEdit(textField.getText());
-					TableColumn<BillItemProperty, ?> nextColumn = getNextColumn(!t.isShiftDown());
+					TableColumn<T, ?> nextColumn = getNextColumn(!t.isShiftDown());
 					if (nextColumn != null) {
 						getTableView().edit(getTableRow().getIndex(), nextColumn);
 					}
@@ -109,9 +109,9 @@ public class EditingCell extends TableCell<BillItemProperty, String> {
 	 *            left of the current column
 	 * @return
 	 */
-	private TableColumn<BillItemProperty, ?> getNextColumn(boolean forward) {
-		List<TableColumn<BillItemProperty, ?>> columns = new ArrayList<>();
-		for (TableColumn<BillItemProperty, ?> column : getTableView().getColumns()) {
+	private TableColumn<T, ?> getNextColumn(boolean forward) {
+		List<TableColumn<T, ?>> columns = new ArrayList<>();
+		for (TableColumn<T, ?> column : getTableView().getColumns()) {
 			columns.addAll(getLeaves(column));
 		}
 		// There is no other column that supports editing.
@@ -134,16 +134,15 @@ public class EditingCell extends TableCell<BillItemProperty, String> {
 		return columns.get(nextIndex);
 	}
 
-	private List<TableColumn<BillItemProperty, ?>> getLeaves(TableColumn<BillItemProperty, ?> root) {
-		List<TableColumn<BillItemProperty, ?>> columns = new ArrayList<>();
+	private List<TableColumn<T, ?>> getLeaves(TableColumn<T, ?> root) {
+		List<TableColumn<T, ?>> columns = new ArrayList<>();
 		if (root.getColumns().isEmpty()) {
-			// We only want the leaves that are editable.
 			if (root.isEditable()) {
 				columns.add(root);
 			}
 			return columns;
 		} else {
-			for (TableColumn<BillItemProperty, ?> column : root.getColumns()) {
+			for (TableColumn<T, ?> column : root.getColumns()) {
 				columns.addAll(getLeaves(column));
 			}
 			return columns;
