@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.File;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,8 +11,9 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import keyword.KeywordDictionary;
 import parserBB.BillItem;
@@ -82,7 +85,10 @@ public class MainController {
 
 	@FXML
 	public void abrirArquivoViaMenu(ActionEvent event) {
-		list = Csv.load("extrato.csv");
+		FileChooser chooser = new FileChooser();
+	    chooser.setTitle("Abrir arquivo csv de extrato");
+	    File file = chooser.showOpenDialog(tabelaTableView.getScene().getWindow());
+		list = Csv.load(file);
 		dictionary = KeywordDictionary.loadDictionaryFromFile("user.dic");
 		dictionary.saveIntoFile("user.dic");
 		System.out.println("soma = " + list.getSumString());
