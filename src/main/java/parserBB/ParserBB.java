@@ -9,8 +9,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import keyword.KeywordDictionary;
 
 public class ParserBB extends Application {
+	
+	// Aplicação
+	private BillList list;
+	private KeywordDictionary dictionary;
+	private ParserStatus status;
+	
+	// JavaFx
 	private Stage janelaPrincipal;
 	private BorderPane rootLayout;
 	private MainController controller;
@@ -54,4 +62,20 @@ public class ParserBB extends Application {
             e.printStackTrace();
         }
     }
+	
+	public BillList getBillList() {
+		return list;
+	}
+	
+	public KeywordDictionary getDictionary() {
+		return dictionary;
+	}
+	
+	public ParserStatus getStatus() {
+		return status;
+	}
+	
+	public void setStatus(ParserStatus status) {
+		this.status = status;
+	}
 }

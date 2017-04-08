@@ -11,6 +11,7 @@ import com.opencsv.CSVReader;
 
 import ui.util.ErrorMessageDialog;
 import ui.util.InfoMessageDialog;
+import parserBB.ParserException;
 
 public class Csv {
 
@@ -20,7 +21,7 @@ public class Csv {
 	 * @param file
 	 * @return
 	 */
-	public static BillList load(File file) {
+	public static BillList load(File file) throws ParserException { 
 		BillList billList = new BillList();
 
 		CSVReader reader = null;
@@ -38,6 +39,7 @@ public class Csv {
 				} catch (Exception e) {
 					new ErrorMessageDialog("Erro ao abrir arquivo CSV", "Arquivo inválido", e.getMessage());
 					reader.close();
+					new ParserException("Erro ao abrir o arquivo CSV");
 					return null;
 				}
 			}
@@ -47,6 +49,7 @@ public class Csv {
 		} catch (IOException e) {
 			e.printStackTrace();
 			new ErrorMessageDialog("Erro ao abrir arquivo CSV", "Não foi possível abrir o arquivo", e.getMessage());
+			new ParserException("Erro ao abrir o arquivo CSV");
 		}
 		return billList;
 	}
