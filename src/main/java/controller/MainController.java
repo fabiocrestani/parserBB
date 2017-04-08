@@ -65,6 +65,8 @@ public class MainController {
 			public void handle(CellEditEvent<BillItemProperty, String> t) {
 				((BillItemProperty) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 						.setCategoria(t.getNewValue());
+				
+				// TODO atualizar dicionário
 			}
 		});
 
