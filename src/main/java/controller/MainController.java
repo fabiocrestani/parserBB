@@ -28,6 +28,7 @@ import parserBB.ParserBB;
 import parserBB.ParserException;
 import parserBB.ParserStatus;
 import ui.util.EditingCell;
+import ui.util.ErrorMessageDialog;
 
 public class MainController {
 
@@ -62,8 +63,8 @@ public class MainController {
 	}
 
 	private ParserStatus updateList(BillList list) {
-		ParserStatus status;
-		
+		ParserStatus status = ParserStatus.PARSER_OK;
+
 		TableColumn<BillItemProperty, String> categoriaCol = new TableColumn<BillItemProperty, String>("Categoria");
 		categoriaCol.setCellValueFactory(new PropertyValueFactory<BillItemProperty, String>("categoria"));
 		TableColumn<BillItemProperty, String> descricaoCol = new TableColumn<BillItemProperty, String>("Descrição");
@@ -97,6 +98,10 @@ public class MainController {
 		for (BillItem item : list.getList()) {
 			String categoria = dictionary.search(item.getDescricao());
 			item.setCategoria(categoria);
+			if (categoria.toLowerCase().equals(Csv.PENDING_CAT_STRING)) {
+				status = ParserStatus.PARSER_PENDING;
+				item.setPendente(true);
+			}
 			propertyList.add(item.createBillItemProperty(categoria));
 		}
 
@@ -104,8 +109,8 @@ public class MainController {
 		System.out.println("size = " + propertyList.size());
 		tabelaTableView.setEditable(true);
 		tabelaTableView.getSelectionModel().cellSelectionEnabledProperty().set(true);
-		
-		return ParserStatus.PARSER_OK;
+
+		return status;
 	}
 
 	@FXML
@@ -115,17 +120,24 @@ public class MainController {
 		chooser.setTitle("Abrir arquivo csv de extrato");
 		File file = chooser.showOpenDialog(tabelaTableView.getScene().getWindow());
 
+		if (file == null) {
+			setStatus(ParserStatus.NO_FILE_SELECTED);
+			updateStatusMessage(getStatus());
+			return;
+		}
+
 		try {
 			list = Csv.load(file);
 		} catch (ParserException e) {
-			e.printStackTrace();
-			setStatus(ParserStatus.PARSER_OK);
+			setStatus(ParserStatus.PARSER_ERROR);
+			new ErrorMessageDialog("Erro ao importar arquivo CSV", "Arquivo inválido", e.getMessage());
+			return;
 		}
-		
+
+		setStatus(ParserStatus.PARSER_OK);
 		dictionary = KeywordDictionary.loadDictionaryFromFile("user.dic");
 		dictionary.saveIntoFile("user.dic");
-		System.out.println("soma = " + list.getSumString());
-		
+
 		status = updateList(list);
 		setStatus(status);
 		updateStatusMessage(getStatus());
@@ -134,7 +146,7 @@ public class MainController {
 	private void setStatus(ParserStatus parserStatus) {
 		parserBB.setStatus(parserStatus);
 	}
-	
+
 	private ParserStatus getStatus() {
 		return parserBB.getStatus();
 	}
@@ -150,26 +162,26 @@ public class MainController {
 		statusHBox.setPrefHeight(24);
 
 		switch (status) {
-		case FILE_ERROR:
-			statusLabel.setText("Não foi possível abrir o arquivo.");
-			statusImageView.setImage(new Image("/ui/icons/ic_error_black_24dp_1x.png"));
-			break;
-		case PARSER_ERROR:
-			statusLabel.setText("Não foi possível importar o arquivo. Arquivo inválido.");
-			statusImageView.setImage(new Image("/ui/icons/ic_error_black_24dp_1x.png"));
-			break;
-		case PARSER_PENDING:
-			statusLabel.setText("Não foi possível determinar a categoria de alguns items. Clique para rever...");
-			statusImageView.setImage(new Image("/ui/icons/ic_report_problem_black_24dp_1x.png"));
-			break;
-		case PARSER_OK:
-			statusLabel.setText("Arquivo importado com sucesso!");
-			statusImageView.setImage(new Image("/ui/icons/ic_done_all_black_24dp_1x.png"));
-			break;
-		default:
-			statusLabel.setText("Nenhum arquivo selecionado.");
-			statusImageView.setImage(new Image("/ui/icons/ic_report_problem_black_24dp_1x.png"));
-			break;
+			case FILE_ERROR:
+				statusLabel.setText("Não foi possível abrir o arquivo.");
+				statusImageView.setImage(new Image("/ui/icons/ic_error_black_24dp_1x.png"));
+				break;
+			case PARSER_ERROR:
+				statusLabel.setText("Não foi possível importar o arquivo. Arquivo inválido.");
+				statusImageView.setImage(new Image("/ui/icons/ic_error_black_24dp_1x.png"));
+				break;
+			case PARSER_PENDING:
+				statusLabel.setText("Não foi possível determinar a categoria de alguns items. Clique para rever...");
+				statusImageView.setImage(new Image("/ui/icons/ic_report_problem_black_24dp_1x.png"));
+				break;
+			case PARSER_OK:
+				statusLabel.setText("Arquivo importado com sucesso!");
+				statusImageView.setImage(new Image("/ui/icons/ic_done_all_black_24dp_1x.png"));
+				break;
+			default:
+				statusLabel.setText("Nenhum arquivo selecionado.");
+				statusImageView.setImage(new Image("/ui/icons/ic_report_problem_black_24dp_1x.png"));
+				break;
 		}
 
 		statusImageView.setVisible(true);

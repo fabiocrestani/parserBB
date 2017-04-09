@@ -18,6 +18,7 @@ public class BillItem {
 	private String documento;
 	private double valor;
 	private String categoria;
+	private boolean pendente;
 
 	public class BillItemProperty {
 		private SimpleStringProperty data;
@@ -86,6 +87,7 @@ public class BillItem {
 		this.descricao = parseDescricao(descricao);
 		this.descricaoOriginal = descricao;
 		this.documento = documento;
+		this.pendente = false;
 		try {
 			this.valor = Double.parseDouble(valor);
 		} catch (Exception e) {
@@ -157,5 +159,13 @@ public class BillItem {
 
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
+	}
+
+	public boolean getPendente() {
+		return pendente;
+	}
+
+	public void setPendente(boolean pendente) {
+		this.pendente = pendente;
 	}
 }

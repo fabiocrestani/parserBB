@@ -15,13 +15,15 @@ import parserBB.ParserException;
 
 public class Csv {
 
+	public static final String PENDING_CAT_STRING = "#pendente";
+
 	/**
 	 * Carrega um csv de arquivo
 	 * 
 	 * @param file
 	 * @return
 	 */
-	public static BillList load(File file) throws ParserException { 
+	public static BillList load(File file) throws ParserException {
 		BillList billList = new BillList();
 
 		CSVReader reader = null;
@@ -37,15 +39,13 @@ public class Csv {
 					BillItem billItem = new BillItem(line[0], line[1], line[2], line[3], line[4], line[5]);
 					billList.add(billItem);
 				} catch (Exception e) {
-					new ErrorMessageDialog("Erro ao abrir arquivo CSV", "Arquivo inválido", e.getMessage());
 					reader.close();
-					new ParserException("Erro ao abrir o arquivo CSV");
-					return null;
+					throw new ParserException("O arquivo " + file.getCanonicalPath() + " não é um arquivo CSV válido.");
 				}
 			}
-			
+
 			reader.close();
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			new ErrorMessageDialog("Erro ao abrir arquivo CSV", "Não foi possível abrir o arquivo", e.getMessage());
