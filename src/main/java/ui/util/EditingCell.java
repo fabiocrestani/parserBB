@@ -1,5 +1,12 @@
 package ui.util;
 
+import java.awt.Paint;
+import java.awt.PaintContext;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.ColorModel;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Platform;
@@ -12,6 +19,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import keyword.KeywordDictionary;
 
 /**
  *
@@ -66,6 +75,12 @@ public class EditingCell<T> extends TableCell<T, String> {
 				setText(getString());
 				setContentDisplay(ContentDisplay.TEXT_ONLY);
 			}
+		}
+
+		if (item != null && item.equals(KeywordDictionary.PENDING_CAT_STRING)) {
+			setTextFill(Color.RED);
+		} else {
+			setTextFill(Color.BLACK);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.util.Collections;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -89,6 +91,7 @@ public class MainController {
 						.setCategoria(t.getNewValue());
 
 				// TODO atualizar dicionário
+
 			}
 		});
 
@@ -96,13 +99,8 @@ public class MainController {
 
 		ObservableList<BillItemProperty> propertyList = FXCollections.observableArrayList();
 		for (BillItem item : list.getList()) {
-			String categoria = dictionary.search(item.getDescricao());
-			item.setCategoria(categoria);
-			if (categoria.toLowerCase().equals(Csv.PENDING_CAT_STRING)) {
-				status = ParserStatus.PARSER_PENDING;
-				item.setPendente(true);
-			}
-			propertyList.add(item.createBillItemProperty(categoria));
+			status = dictionary.search(item);
+			propertyList.add(item.createBillItemProperty(item.getCategoria()));
 		}
 
 		tabelaTableView.setItems(propertyList);

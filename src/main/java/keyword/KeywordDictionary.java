@@ -16,9 +16,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import parserBB.BillItem;
+import parserBB.ParserStatus;
 import ui.util.ErrorMessageDialog;
 
 public class KeywordDictionary {
+	public static final String PENDING_CAT_STRING = "#pendente";
 	private List<Keyword> keywords = new ArrayList<Keyword>();
 
 	public KeywordDictionary() {
@@ -29,8 +32,11 @@ public class KeywordDictionary {
 	}
 
 	// Procura a melhor categoria para a query recebida
-	public String search(String query) {
+	public ParserStatus search(BillItem item) {
 		Keyword foundKeyword = new Keyword("#pendente");
+		String query = item.getDescricao();
+		ParserStatus status;
+		int numberOfOccurences = 0;
 
 		for (Keyword keyword : keywords) {
 			keyword.resetOccurences();
@@ -39,11 +45,24 @@ public class KeywordDictionary {
 					keyword.incOccurences();
 				}
 			}
-			if (keyword.getOccurences() > foundKeyword.getOccurences()) {
+			numberOfOccurences = keyword.getOccurences(); 
+			if (numberOfOccurences > foundKeyword.getOccurences()) {
 				foundKeyword = keyword;
 			}
 		}
-		return firstLetterUppercase(foundKeyword.getKey());
+		
+		if (foundKeyword.getKey().toLowerCase().equals(KeywordDictionary.PENDING_CAT_STRING)) {
+			status = ParserStatus.PARSER_PENDING;
+			item.setPendente(true);
+			numberOfOccurences = 0;
+		} else {
+			status = ParserStatus.PARSER_OK;
+			item.setPendente(false);
+		}
+		
+		item.setCategoria(firstLetterUppercase(foundKeyword.getKey()));
+		
+		return status;
 	}
 
 	public static String firstLetterUppercase(String string) {
@@ -107,4 +126,5 @@ public class KeywordDictionary {
 		k.add(new Keyword("saque", "saque", "taa"));
 		return new KeywordDictionary(k);
 	}
+
 }

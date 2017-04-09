@@ -19,6 +19,7 @@ public class BillItem {
 	private double valor;
 	private String categoria;
 	private boolean pendente;
+	private int rank;
 
 	public class BillItemProperty {
 		private SimpleStringProperty data;
@@ -55,6 +56,10 @@ public class BillItem {
 			this.categoria.set(newValue);
 			that.categoria = newValue;
 		}
+
+		public BillItem getBillItem() {
+			return that;
+		}
 	}
 
 	public BillItem(String data, String agencia, String descricao, String dataDoBalancete, String documento,
@@ -88,6 +93,7 @@ public class BillItem {
 		this.descricaoOriginal = descricao;
 		this.documento = documento;
 		this.pendente = false;
+		this.rank = 0;
 		try {
 			this.valor = Double.parseDouble(valor);
 		} catch (Exception e) {
@@ -167,5 +173,9 @@ public class BillItem {
 
 	public void setPendente(boolean pendente) {
 		this.pendente = pendente;
+	}
+
+	public int getRank() {
+		return rank;
 	}
 }

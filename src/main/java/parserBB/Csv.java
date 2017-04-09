@@ -14,9 +14,6 @@ import ui.util.InfoMessageDialog;
 import parserBB.ParserException;
 
 public class Csv {
-
-	public static final String PENDING_CAT_STRING = "#pendente";
-
 	/**
 	 * Carrega um csv de arquivo
 	 * 
