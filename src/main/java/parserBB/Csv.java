@@ -51,9 +51,8 @@ public class Csv {
 		return billList;
 	}
 
-	public static void store(BillList list, String csvFile) {
+	public static void store(BillList list, File csvFile) throws Exception {
 		String csvContent = list.getCsv();
-
 		try {
 			OutputStream os = new FileOutputStream(csvFile);
 			os.write(0xEF);
@@ -67,6 +66,7 @@ public class Csv {
 					"Arquivo exportado: " + csvFile);
 		} catch (Exception e) {
 			e.printStackTrace();
+			new Exception("Erro ao exportar arquivo: " + csvFile.getCanonicalPath());
 		}
 	}
 }

@@ -47,7 +47,7 @@
          </children></Pane>
       <HBox>
          <children>
-            <TableView fx:id="tabelaTableView" editable="true" maxWidth="700.0" minHeight="500.0" minWidth="450.0" prefHeight="500.0" prefWidth="600.0">
+            <TableView fx:id="tabelaTableView" editable="true" maxWidth="700.0" minHeight="540.0" minWidth="450.0" prefHeight="540.0" prefWidth="600.0">
                <columns>
                   <TableColumn fx:id="data" editable="false" maxWidth="-1.0" minWidth="80.0" text="Data" />
                   <TableColumn fx:id="categoria" maxWidth="-1.0" minWidth="100.0" prefWidth="100.0" text="Categoria" />

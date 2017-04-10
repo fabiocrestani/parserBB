@@ -111,6 +111,14 @@ public class MainController {
 		return status;
 	}
 
+	private void setStatus(ParserStatus parserStatus) {
+		parserBB.setStatus(parserStatus);
+	}
+
+	private ParserStatus getStatus() {
+		return parserBB.getStatus();
+	}
+
 	@FXML
 	public void abrirArquivoViaMenu(ActionEvent event) {
 		ParserStatus status;
@@ -141,17 +149,21 @@ public class MainController {
 		updateStatusMessage(getStatus());
 	}
 
-	private void setStatus(ParserStatus parserStatus) {
-		parserBB.setStatus(parserStatus);
-	}
-
-	private ParserStatus getStatus() {
-		return parserBB.getStatus();
-	}
-
 	@FXML
 	public void salvarArquivoViaMenu(ActionEvent event) {
-		Csv.store(list, "outputeste.csv");
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Exportar arquivo CSV");
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Arquivo CSV", "*.csv"));
+		File file = fileChooser.showSaveDialog(tabelaTableView.getScene().getWindow());
+		if (file != null) {
+			try {
+				Csv.store(list, file);
+			} catch (Exception e) {
+				new ErrorMessageDialog("Erro ao exportar arquivo CSV", "Ocorreu um erro ao exportar o arquivo CSV",
+						e.getMessage());
+			}
+		}
+
 	}
 
 	void updateStatusMessage(ParserStatus status) {
@@ -169,7 +181,7 @@ public class MainController {
 				statusImageView.setImage(new Image("/ui/icons/ic_error_black_24dp_1x.png"));
 				break;
 			case PARSER_PENDING:
-				statusLabel.setText("Não foi possível determinar a categoria de alguns items. Clique para rever...");
+				statusLabel.setText("Não foi possível determinar a categoria de alguns items.");
 				statusImageView.setImage(new Image("/ui/icons/ic_report_problem_black_24dp_1x.png"));
 				break;
 			case PARSER_OK:
