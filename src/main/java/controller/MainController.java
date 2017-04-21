@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.File;
-import java.util.Collections;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -87,11 +85,11 @@ public class MainController {
 		categoriaCol.setOnEditCommit(new EventHandler<CellEditEvent<BillItemProperty, String>>() {
 			@Override
 			public void handle(CellEditEvent<BillItemProperty, String> t) {
-				((BillItemProperty) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-						.setCategoria(t.getNewValue());
-
-				// TODO atualizar dicionário
-
+				BillItemProperty billItem = ((BillItemProperty) t.getTableView().getItems()
+						.get(t.getTablePosition().getRow()));
+				billItem.setCategoria(t.getNewValue());
+				dictionary.updateKeywordFromUser(billItem.getCategoria(), billItem.getDescricao());
+				dictionary.saveIntoFile();
 			}
 		});
 
@@ -141,8 +139,8 @@ public class MainController {
 		}
 
 		setStatus(ParserStatus.PARSER_OK);
-		dictionary = KeywordDictionary.loadDictionaryFromFile("user.dic");
-		dictionary.saveIntoFile("user.dic");
+		dictionary = KeywordDictionary.loadDictionaryFromFile();
+		dictionary.saveIntoFile();
 
 		status = updateList(list);
 		setStatus(status);

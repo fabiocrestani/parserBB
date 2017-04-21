@@ -17,6 +17,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import parserBB.BillItem;
+import parserBB.ParserBB;
 import parserBB.ParserStatus;
 import ui.util.ErrorMessageDialog;
 
@@ -45,12 +46,12 @@ public class KeywordDictionary {
 					keyword.incOccurences();
 				}
 			}
-			numberOfOccurences = keyword.getOccurences(); 
+			numberOfOccurences = keyword.getOccurences();
 			if (numberOfOccurences > foundKeyword.getOccurences()) {
 				foundKeyword = keyword;
 			}
 		}
-		
+
 		if (foundKeyword.getKey().toLowerCase().equals(KeywordDictionary.PENDING_CAT_STRING)) {
 			status = ParserStatus.PARSER_PENDING;
 			item.setPendente(true);
@@ -59,14 +60,18 @@ public class KeywordDictionary {
 			status = ParserStatus.PARSER_OK;
 			item.setPendente(false);
 		}
-		
+
 		item.setCategoria(firstLetterUppercase(foundKeyword.getKey()));
-		
+
 		return status;
 	}
 
 	public static String firstLetterUppercase(String string) {
 		return WordUtils.capitalize(string.toLowerCase());
+	}
+
+	public static KeywordDictionary loadDictionaryFromFile() {
+		return loadDictionaryFromFile(ParserBB.DEFAULT_DICTIONARY_PATH);
 	}
 
 	// Carrega dicionário de arquivo
@@ -92,6 +97,10 @@ public class KeywordDictionary {
 		return new KeywordDictionary(k);
 	}
 
+	public void saveIntoFile() {
+		saveIntoFile(ParserBB.DEFAULT_DICTIONARY_PATH);
+	}
+
 	// Salva dicionário em arquivo
 	public void saveIntoFile(String filePath) {
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
@@ -110,6 +119,25 @@ public class KeywordDictionary {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void updateKeywordFromUser(String key, String description) {
+		Keyword keyword = getKeywordFromKey(key);		
+		String[] ks = description.split(" ");
+		for (String k : ks) {
+			keyword.addKeyword(k);
+		}
+	}
+
+	private Keyword getKeywordFromKey(String key) {
+		for (Keyword k : keywords) {
+			if (k.getKey().equals(key)) {
+				return k;
+			}
+		}
+		Keyword newKeyword = new Keyword(key);
+		keywords.add(newKeyword);
+		return newKeyword;
 	}
 
 	// Carrega array com dados de teste

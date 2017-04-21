@@ -151,6 +151,7 @@ public class BillItem {
 	private String parseDescricao(String string) {
 		String newString = string.replaceAll("\\P{L}", " ").toUpperCase().replaceAll("\\s*\\bCOMPRA COM CARTÃO\\b\\s*",
 				"");
+		newString = newString.replaceAll("\\s*\\bPagamento\\b\\s*","");
 		newString = newString.trim().replaceAll(" +", " ");
 		return WordUtils.capitalize(newString.toLowerCase());
 	}

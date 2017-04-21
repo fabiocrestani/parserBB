@@ -18,6 +18,8 @@ public class ParserBB extends Application {
 	private KeywordDictionary dictionary;
 	private ParserStatus status;
 	
+	public final static String DEFAULT_DICTIONARY_PATH = "user.dic";
+	
 	// JavaFx
 	private Stage janelaPrincipal;
 	private BorderPane rootLayout;

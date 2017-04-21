@@ -14,6 +14,12 @@ public class Keyword {
 	
 	private int occurences;
 
+	public Keyword(String key) {
+		this.key = key;
+		this.occurences = 0;
+		this.keywords = new ArrayList<String>();
+	}
+	
 	public Keyword(String key, String...keywords) {
 		this.key = key;
 		this.occurences = 0;
@@ -42,5 +48,14 @@ public class Keyword {
 
 	public void incOccurences() {
 		this.occurences++;
+	}
+	
+	public void addKeyword(String keyword) {
+		for (String k : keywords) {
+			if (k.equals(keyword)) {
+				return;
+			}
+		}
+		keywords.add(keyword);
 	}
 }
