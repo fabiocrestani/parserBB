@@ -1,6 +1,7 @@
 package keyword;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
@@ -9,10 +10,21 @@ public class Keyword {
 	
 	@Expose
 	private String key;
+	
 	@Expose
 	private List<String> keywords;
 	
+	private final int MINIMAL_KEYWORD_LENGTH = 4;	
 	private int occurences;
+	
+	private static final List<String> forbiddenWords = new LinkedList<String>();
+	static {
+		forbiddenWords.add("Pagamento");
+		forbiddenWords.add("Conta");
+		forbiddenWords.add("Doc");
+		forbiddenWords.add("Crédito");
+		forbiddenWords.add("Débito");
+	}
 
 	public Keyword(String key) {
 		this.key = key;
@@ -51,6 +63,14 @@ public class Keyword {
 	}
 	
 	public void addKeyword(String keyword) {
+		if (keyword.length() < MINIMAL_KEYWORD_LENGTH) {
+			return;
+		}
+		for (String f : forbiddenWords) {
+			if (f.equals(keyword)) {
+				return;
+			}
+		}
 		for (String k : keywords) {
 			if (k.equals(keyword)) {
 				return;
